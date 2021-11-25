@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./CSS/reset.css" />
+    <link rel="stylesheet" href="./CSS/index.css" />
+    <title>Document</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <input style="display: none" type="checkbox" id="navbarControll" />
+    <div class="nav">
+      <label for="navbarControll" class="navChecked">o</label>
+      <div class="title">
+        <img style="width:100%; height:100px;" src="./watotalk.png" />
+      </div>
+      <div class="room">
+        <span>123</span>
+      </div>
+      <div class="users"></div>
+    </div>
+    <div class="printMessage">
+      <!-- <div>
+        <span>hello</span>
+      </div> -->
+    </div>
+
+    <form id="form">
+      <input class="inputArea" type="text" />
+      <button class="send" type="submit">send</button>
+    </form>
+    <script>
+      var socket = io();
+
+      var form = document.getElementById("form");
+      var input = document.querySelector(".inputArea");
+      const printMessage = document.querySelector(".printMessage");
+      const printUsers = document.querySelector(".users");
+      const info = getUrlValues(window.location.search);
+      const room = info.room;
+      const user = info.username;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit("send-message", input.value);
+          input.value = "";
+        }
+      });
+
+      socket.emit("join-room", room, user);
+
+      socket.on("send-message", function (message) {
+        displayMessage(message);
+        console.log(message);
+      });
+
+      socket.on("room-brocast", (message) => {
+        displayMessage(message);
+      });
+
+  
+
+      socket.on("users_in_room", (UsersAry) => {
+        showUsers(UsersAry);
+      });
+
+      socket.on("userleave", (username) => {
+          displayMessage(username);
+      });
+
+
+      function displayMessage(message) {
+        const item = document.createElement("div");
+        item.innerHTML = `<span>${message}</span>`;
+        printMessage.appendChild(item);
+        printMessage.scrollTo(0, document.body.scrollHeight);
+      }
+
+      function showUsers(UserAry) {
+        printUsers.innerHTML = `
+        ${UserAry.map(user => `<span>${user.username}</span>`).join('')}
+        `;
+      }
+
+      function getUrlValues() {
+        let values = {};
+        let parts = window.location.href.replace(
+          /[?&]+([^=&]+)=([^&]*)/gi,
+          function (m, key, value) {
+            values[key] = value;
+          }
+        );
+        return values;
+      }
+    </script>
+  </body>
+</html>

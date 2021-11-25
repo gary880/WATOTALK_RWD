@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <link rel="stylesheet" href="./CSS/reset.css" />
+    <style>
+        html,body{
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            background-color:bisque;
+        }
+        .middlebox{
+            width: 300px;
+            height: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        form{
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            justify-content: center;
+            border-radius: 30px;
+            box-shadow: 3px 3px 9px rgb(112, 112, 112);
+            background-color: white;
+            align-items: center;
+        }
+
+        form > input{
+            background-color: bisque;
+            border: none;
+            padding: 15px 15px;
+            margin: 15px 0;
+            border-radius: 15px;
+            width:80%;
+        }
+        form > button{
+            margin-top: 10px;
+            border: none;
+            border-radius: 15px;
+            padding: 12px 45px;
+            font-family: fantasy;
+            font-size: 20px;
+            font-weight: 600;
+            color: rgb(104, 86, 64);
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        #Watotalk{
+            font-family: fantasy;
+            font-size: 50px;
+            color: rgb(131, 123, 123);
+        }
+    </style>
+</head>
+<body>
+    
+         <div class="middlebox">
+            <form action='index.html'>
+            <span id="Watotalk">Watotalk</span>
+            <br/>
+            
+            <input placeholder="Name"  type="text" name="username" id="username" required>
+            <input placeholder="Room" type="text" name="room" id="room" required>
+            <button>Login</button>
+        </form>
+        </div>
+
+
+
+</html>
